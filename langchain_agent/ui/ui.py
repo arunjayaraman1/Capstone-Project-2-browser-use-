@@ -94,27 +94,16 @@ if add_button:
                     if data.get("success"):
                         st.success(f"✅ {data.get('message', 'Items processed successfully')}")
                         
-                        # Display cart items
+                        # Display cart items - only show "Added to cart" with product link
                         cart = data.get("cart")
                         if cart and cart.get("items"):
-                            st.subheader("📦 Items Added to Cart")
+                            st.subheader("✅ Added to Cart")
                             
-                            for idx, item in enumerate(cart["items"], 1):
-                                with st.expander(f"📦 Item {idx}: {item.get('name', 'Unknown')}", expanded=True):
-                                    col1, col2 = st.columns([2, 1])
-                                    
-                                    with col1:
-                                        st.markdown(f"**Name:** {item.get('name', 'N/A')}")
-                                        if item.get('brand'):
-                                            st.markdown(f"**Brand:** {item.get('brand')}")
-                                        if item.get('size'):
-                                            st.markdown(f"**Size:** {item.get('size')}")
-                                    
-                                    with col2:
-                                        st.metric("Price", f"${item.get('price', 0):.2f}")
-                                    
-                                    if item.get('url'):
-                                        st.markdown(f"[🔗 View Product]({item['url']})")
+                            for item in cart["items"]:
+                                if item.get('url'):
+                                    st.markdown(f"🔗 [Product Link]({item['url']})")
+                                else:
+                                    st.markdown("🔗 Product link not available")
                         else:
                             st.warning("⚠️ No items were returned in the response")
                     else:

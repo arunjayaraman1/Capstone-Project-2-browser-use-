@@ -6,11 +6,11 @@ import uvicorn
 import sys
 from pathlib import Path
 
-# Add parent directory to path to import gr module
+# Add parent directory to path to import automation module
 parent_dir = Path(__file__).parent.parent
 sys.path.insert(0, str(parent_dir))
 
-from gr import add_to_cart, GroceryCart
+from automation import add_to_cart, GroceryCart
 
 app = FastAPI(title="Amazon Cart API", version="1.0.0")
 

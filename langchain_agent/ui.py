@@ -135,11 +135,21 @@ if add_button:
                                 except json.JSONDecodeError:
                                     continue
                     
-                    # Display cart result immediately after completion
-                    if cart_data and cart_data.get("product_name"):
+                    # Display cart result immediately after completion - only show "Added to cart" with link
+                    if cart_data:
                         with cart_container:
-                            st.subheader("📦 Product Added to Cart")
-                            st.success(f"✅ **{cart_data.get('product_name')}** has been successfully added to your cart!")
+                            st.subheader("✅ Added to Cart")
+                            if cart_data.get("items"):
+                                for item in cart_data.get("items", []):
+                                    if item.get('url'):
+                                        st.markdown(f"🔗 [Product Link]({item['url']})")
+                                    else:
+                                        st.markdown("🔗 Product link not available")
+                            elif cart_data.get("product_name"):
+                                # Fallback for old API format
+                                st.success("✅ Product added to cart")
+                                if cart_data.get("url"):
+                                    st.markdown(f"🔗 [Product Link]({cart_data['url']})")
                     
             if final_message:
                 st.success(final_message)
